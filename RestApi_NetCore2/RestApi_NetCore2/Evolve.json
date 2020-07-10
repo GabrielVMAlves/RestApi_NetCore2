@@ -1,0 +1,7 @@
+﻿{
+  "Evolve.Driver": "MySQL.Data",
+  "Evolve.ConnectionString": "Server=localhost;Port=3306;User Id=root;password=@sustech123!@#;database=rest_dotnet;SslMode=none",
+  "Evolve.Locations": "db",
+  "Evolve.Command": "migrate",
+  "Evolve.Placeholder.table4": "table_4"
+}

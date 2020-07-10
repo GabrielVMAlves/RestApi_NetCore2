@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using RestApi_NetCore2.Models;
 using RestApi_NetCore2.Repository;
 

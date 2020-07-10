@@ -17,7 +17,6 @@ namespace RestApi_NetCore2.Controllers
             _personService = personService;
         }
 
-        // GET api/values
         [HttpGet]
         public IActionResult FindAll()
         {
@@ -32,8 +31,6 @@ namespace RestApi_NetCore2.Controllers
             
         }
 
-        // GET api/values/5
-        
         [HttpGet("{id}")]
         public IActionResult FindById(long id)
         {
@@ -54,7 +51,6 @@ namespace RestApi_NetCore2.Controllers
             
         }
 
-        // POST api/values
         [HttpPost]
         public IActionResult Create([FromBody] Person person)
         {
@@ -71,8 +67,7 @@ namespace RestApi_NetCore2.Controllers
             
         }
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
+        [HttpPut]
         public IActionResult Update([FromBody] Person person)
         {
             try
@@ -88,7 +83,6 @@ namespace RestApi_NetCore2.Controllers
             }
         }
 
-        // DELETE api/values/5
         [HttpDelete("{id}")]
         public IActionResult Delete(long id)
         {

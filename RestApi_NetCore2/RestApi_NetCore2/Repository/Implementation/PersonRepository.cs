@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using RestApi_NetCore2.Models;
 using RestApi_NetCore2.Models.Context;
 
@@ -77,7 +76,7 @@ namespace RestApi_NetCore2.Repository.Implementation
             {
                 if(!_db.Persons.Any(p => p.Id.Equals(person.Id)))
                 {
-                    throw new NullReferenceException();
+                    return null;
                 }
                 var result = _db.Persons.SingleOrDefault(p => p.Id.Equals(person.Id));
 
