@@ -1,21 +1,26 @@
 ﻿using System.Collections.Generic;
+using RestApi_NetCore2.Data.Converters;
+using RestApi_NetCore2.Data.VO;
 using RestApi_NetCore2.Models;
-using RestApi_NetCore2.Repository;
+using RestApi_NetCore2.Repository.Generic;
 
 namespace RestApi_NetCore2.Services.Implementations
 {
     public class PersonService : IPersonService
     {
-        private IPersonRepository _repository;
+        private IRepository<Person> _repository;
+        private readonly PersonConverter _converter;
 
-        public PersonService(IPersonRepository personRepository)
+        public PersonService(IRepository<Person> personRepository)
         {
             _repository = personRepository;
+            _converter = new PersonConverter();
         }
 
-        public Person Create(Person person)
+        public PersonVO Create(PersonVO person)
         {
-            return _repository.Create(person);
+            Person personEntity = _converter.Parse(person);
+            return _converter.Parse(_repository.Create(personEntity));
         }
 
         public void Delete(long Id)
@@ -23,19 +28,21 @@ namespace RestApi_NetCore2.Services.Implementations
             _repository.Delete(Id);
         }
 
-        public List<Person> FindAll()
+        public List<PersonVO> FindAll()
         {
-            return _repository.FindAll();
+
+            return _converter.Parse(_repository.FindAll());
         }
 
-        public Person FindById(long Id)
+        public PersonVO FindById(long Id)
         {
-            return _repository.FindById(Id);
+            return _converter.Parse(_repository.FindById(Id));
         }
 
-        public Person Update(Person person)
+        public PersonVO Update(PersonVO person)
         {
-            return _repository.Update(person);
+            Person personEntity = _converter.Parse(person);
+            return _converter.Parse(_repository.Update(personEntity));
         }
     }
 }

@@ -7,7 +7,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using RestApi_NetCore2.Models.Context;
 using RestApi_NetCore2.Repository;
+using RestApi_NetCore2.Repository.Generic;
 using RestApi_NetCore2.Repository.Implementation;
+using RestApi_NetCore2.Services;
 using RestApi_NetCore2.Services.Implementations;
 using System;
 using System.Collections.Generic;
@@ -62,10 +64,12 @@ namespace RestApi_NetCore2
 
             #region Services
             services.AddScoped<IPersonService, PersonService>();
+            services.AddScoped<IBookService, BookService>();
             #endregion
 
             #region Repositorys
             services.AddScoped<IPersonRepository, PersonRepository>();
+            services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
             #endregion
 
         }

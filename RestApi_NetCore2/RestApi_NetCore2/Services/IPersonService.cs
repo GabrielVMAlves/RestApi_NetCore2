@@ -1,14 +1,14 @@
-﻿using RestApi_NetCore2.Models;
+﻿using RestApi_NetCore2.Data.VO;
 using System.Collections.Generic;
 
 namespace RestApi_NetCore2.Services.Implementations
 {
     public interface IPersonService
     {
-        Person Create (Person person);
-        Person FindById (long Id);
-        List<Person> FindAll ();
-        Person Update (Person person);
+        PersonVO Create (PersonVO person);
+        PersonVO FindById (long Id);
+        List<PersonVO> FindAll ();
+        PersonVO Update (PersonVO person);
         void Delete (long Id);
     }
 }

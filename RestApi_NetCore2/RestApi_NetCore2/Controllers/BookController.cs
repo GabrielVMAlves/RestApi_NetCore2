@@ -1,21 +1,24 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RestApi_NetCore2.Data.VO;
 using RestApi_NetCore2.Models;
-using RestApi_NetCore2.Services.Implementations;
+using RestApi_NetCore2.Services;
 
 namespace RestApi_NetCore2.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PersonController : ControllerBase
+    public class BookController : ControllerBase
     {
+        private IBookService _bookService;
 
-        private IPersonService _personService;
-
-        public PersonController (IPersonService personService)
+        public BookController(IBookService bookService)
         {
-            _personService = personService;
+            _bookService = bookService;
         }
 
         [HttpGet]
@@ -23,13 +26,14 @@ namespace RestApi_NetCore2.Controllers
         {
             try
             {
-                var retorno = _personService.FindAll();
+                var retorno = _bookService.FindAll();
                 return Ok(retorno);
-            } catch(Exception e)
+            }
+            catch (Exception e)
             {
                 return BadRequest(e.Message.ToString());
             }
-            
+
         }
 
         [HttpGet("{id}")]
@@ -40,40 +44,42 @@ namespace RestApi_NetCore2.Controllers
                 if (id <= 0)
                     return BadRequest("Invalid ID!");
 
-                PersonVO retorno = _personService.FindById(id);
+                BookVO retorno = _bookService.FindById(id);
 
                 if (retorno == null)
                     return NotFound("Person not found!");
                 return Ok(retorno);
-            } catch(Exception e)
+            }
+            catch (Exception e)
             {
                 return BadRequest(e.Message.ToString());
             }
-            
+
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] PersonVO person)
+        public IActionResult Create([FromBody] BookVO book)
         {
             try
             {
-                PersonVO retorno = _personService.Create(person);
+                BookVO retorno = _bookService.Create(book);
                 if (retorno == null)
                     return BadRequest("Invalid Person data");
                 return Ok(retorno);
-            } catch(Exception e)
+            }
+            catch (Exception e)
             {
                 return BadRequest(e.Message.ToString());
             }
-            
+
         }
 
         [HttpPut]
-        public IActionResult Update([FromBody] PersonVO person)
+        public IActionResult Update([FromBody] BookVO book)
         {
             try
             {
-                PersonVO retorno = _personService.Update(person);
+                BookVO retorno = _bookService.Update(book);
                 if (retorno == null)
                     return BadRequest("Invalid Person data");
                 return Ok(retorno);
@@ -89,9 +95,10 @@ namespace RestApi_NetCore2.Controllers
         {
             try
             {
-                _personService.Delete(id);
+                _bookService.Delete(id);
                 return NoContent();
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 return BadRequest(e.Message.ToString());
             }
