@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using RestApi_NetCore2.Data.VO;
-using RestApi_NetCore2.Models;
 using RestApi_NetCore2.Services.Implementations;
+using Tapioca.HATEOAS;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace RestApi_NetCore2.Controllers
 {
@@ -19,6 +21,11 @@ namespace RestApi_NetCore2.Controllers
         }
 
         [HttpGet]
+        [SwaggerResponse((200), Type = typeof(List<PersonVO>))]
+        [SwaggerResponse((204))]
+        [SwaggerResponse((400))]
+        [SwaggerResponse((401))]
+        [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult FindAll()
         {
             try
@@ -33,6 +40,11 @@ namespace RestApi_NetCore2.Controllers
         }
 
         [HttpGet("{id}")]
+        [SwaggerResponse((200), Type = typeof(PersonVO))]
+        [SwaggerResponse((204))]
+        [SwaggerResponse((400))]
+        [SwaggerResponse((401))]
+        [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult FindById(long id)
         {
             try
@@ -53,6 +65,10 @@ namespace RestApi_NetCore2.Controllers
         }
 
         [HttpPost]
+        [SwaggerResponse((201), Type = typeof(PersonVO))]
+        [SwaggerResponse((400))]
+        [SwaggerResponse((401))]
+        [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Create([FromBody] PersonVO person)
         {
             try
@@ -69,6 +85,10 @@ namespace RestApi_NetCore2.Controllers
         }
 
         [HttpPut]
+        [SwaggerResponse((202), Type = typeof(PersonVO))]
+        [SwaggerResponse((400))]
+        [SwaggerResponse((401))]
+        [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Update([FromBody] PersonVO person)
         {
             try
@@ -85,6 +105,10 @@ namespace RestApi_NetCore2.Controllers
         }
 
         [HttpDelete("{id}")]
+        [SwaggerResponse((204))]
+        [SwaggerResponse((400))]
+        [SwaggerResponse((401))]
+        [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Delete(long id)
         {
             try

@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using RestApi_NetCore2.Hypermedia;
 using RestApi_NetCore2.Models.Context;
 using RestApi_NetCore2.Repository;
 using RestApi_NetCore2.Repository.Generic;
@@ -13,6 +14,9 @@ using RestApi_NetCore2.Services;
 using RestApi_NetCore2.Services.Implementations;
 using System;
 using System.Collections.Generic;
+using Tapioca.HATEOAS;
+using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.AspNetCore.Rewrite;
 
 namespace RestApi_NetCore2
 {
@@ -60,9 +64,23 @@ namespace RestApi_NetCore2
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+
+            HyperMediaFilterOptions filterOptions = new HyperMediaFilterOptions();
+            filterOptions.ObjectContentResponseEnricherList.Add(new BookEnricher());
+            filterOptions.ObjectContentResponseEnricherList.Add(new PersonEnricher());
+
             //services.AddApiVersioning();
 
+            services.AddSwaggerGen(c => {
+                c.SwaggerDoc("v1",
+                    new Info {
+                        Title = "Restfull API - .NET CORE 2.0",
+                        Version = "v1"
+                    });
+            });
+
             #region Services
+            services.AddSingleton(filterOptions);
             services.AddScoped<IPersonService, PersonService>();
             services.AddScoped<IBookService, BookService>();
             #endregion
@@ -86,8 +104,24 @@ namespace RestApi_NetCore2
                 app.UseHsts();
             }
 
+            app.UseSwagger();
+            app.UseSwaggerUI( c => {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API");
+            });
+
+            RewriteOptions option = new RewriteOptions();
+
+            option.AddRedirect("^$", "swagger");
+
+            app.UseRewriter(option);
+
             app.UseHttpsRedirection();
-            app.UseMvc();
+            app.UseMvc(routes => {
+                routes.MapRoute(
+                    name: "DefaultApi",
+                    template: "{controller=Values}/{id?}"
+                    );
+            });
         }
     }
 }

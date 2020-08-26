@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RestApi_NetCore2.Data.VO;
-using RestApi_NetCore2.Models;
 using RestApi_NetCore2.Services;
+using Tapioca.HATEOAS;
 
 namespace RestApi_NetCore2.Controllers
 {
@@ -22,6 +18,7 @@ namespace RestApi_NetCore2.Controllers
         }
 
         [HttpGet]
+        [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult FindAll()
         {
             try
@@ -37,6 +34,7 @@ namespace RestApi_NetCore2.Controllers
         }
 
         [HttpGet("{id}")]
+        [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult FindById(long id)
         {
             try
@@ -58,6 +56,7 @@ namespace RestApi_NetCore2.Controllers
         }
 
         [HttpPost]
+        [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Create([FromBody] BookVO book)
         {
             try
@@ -75,6 +74,7 @@ namespace RestApi_NetCore2.Controllers
         }
 
         [HttpPut]
+        [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Update([FromBody] BookVO book)
         {
             try
@@ -91,6 +91,7 @@ namespace RestApi_NetCore2.Controllers
         }
 
         [HttpDelete("{id}")]
+        [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Delete(long id)
         {
             try
