@@ -5,10 +5,14 @@ using RestApi_NetCore2.Data.VO;
 using RestApi_NetCore2.Services.Implementations;
 using Tapioca.HATEOAS;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using System.Linq;
 
 namespace RestApi_NetCore2.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize("Bearer")]
     [ApiController]
     public class PersonController : ControllerBase
     {
@@ -30,6 +34,8 @@ namespace RestApi_NetCore2.Controllers
         {
             try
             {
+                var teste = User.Identity;
+                var profile = (User.Identity as ClaimsIdentity).Claims.Where(p => p.Type == "Profile").FirstOrDefault().Value;
                 var retorno = _personService.FindAll();
                 return Ok(retorno);
             } catch(Exception e)
